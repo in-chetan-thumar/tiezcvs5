@@ -1,5 +1,9 @@
 <?php
 $action = '';
+//$basePath = "/www/sites/www.spruyt-hillen.nl/";
+$basePath = "/www/cronjobs/tiezcvs5/";
+shell_exec("cd " . $basePath);
+
 if($_POST['action'] != ''){
 	$action = $_POST['action'];
 } 
@@ -15,6 +19,8 @@ if($action == ''){
 		if($value == ''){
 			unset($allBranch[$key]);
 		}elseif($value == '->'){
+			unset($allBranch[$key]);
+		}elseif($value == 'HEAD'){
 			unset($allBranch[$key]);
 		}else{
 			$allBranch[$key] = str_replace('remotes/origin/', '', $value);
@@ -37,7 +43,7 @@ if($action == ''){
 		echo '<input type="submit" name="submit" value="Checkout Branch">';
 	echo '</form>';
 }
-print_r($_POST);
+
 if($action == 'commitedFileList'){
 	$sBranch = trim($_POST['checkoutBranch']);
 	$fileList = shell_exec('git diff --name-status '.$cBranch.'..'.$sBranch); 
@@ -56,12 +62,10 @@ if($action == 'commitedFileList'){
 } 
 if($action == 'checkoutBranch'){
 	$sBranch = trim($_POST['branchName']);
-	echo 'git checkout '.$sBranch;
 	//$result = shell_exec('git checkout '.$sBranch);
-	echo "<pre>$result</pre>";
-	echo "<br> cd /www/cronjobs/tiezcvs5/; git fetch origin; git checkout ".$sBranch."; git pull origin ".$sBranch.";";
-	$result1 = shell_exec("cd /www/cronjobs/tiezcvs5/; git fetch origin; git checkout ".$sBranch."; git pull origin ".$sBranch.";"); 
+	$result1 = shell_exec("git fetch origin; git checkout ".$sBranch."; git pull origin ".$sBranch.";"); 
 	echo "<pre>$result1</pre>";
+	shell_exec("chmod -R 777 " . $basePath);
 	//$result1 = exec('git checkout '.$sBranch);
 }
 ?>
