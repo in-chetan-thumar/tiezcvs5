@@ -22,6 +22,10 @@ if($action == ''){
 			unset($allBranch[$key]);
 		}elseif($value == 'HEAD'){
 			unset($allBranch[$key]);
+		}elseif($value == ''){
+			unset($allBranch[$key]);
+		}elseif($value == $cBranch){
+			unset($allBranch[$key]);
 		}else{
 			$allBranch[$key] = str_replace('remotes/origin/', '', $value);
 			$allBranch[$key] = str_replace('*', '', $allBranch[$key]);
@@ -49,7 +53,7 @@ if($action == 'commitedFileList'){
 	$fileList = shell_exec('git diff --name-status '.$cBranch.'..'.$sBranch); 
 	$fileList = explode(' ', $fileList);
 	echo '<br><br> New branch changes are: <bR><br>';
-	echo 'Tryp'.  "\t \t" . 'File name';
+	echo 'Action'.  " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; " . 'File name';
 	foreach($fileList as $key => $value){
 		echo '<br>'.$value;
 	}
