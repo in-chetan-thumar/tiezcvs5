@@ -24,17 +24,22 @@ if($action == ''){
 			unset($allBranch[$key]);
 		}elseif($value == ''){
 			unset($allBranch[$key]);
-		}elseif($value == $cBranch){
-			unset($allBranch[$key]);
 		}else{
 			$allBranch[$key] = str_replace('remotes/origin/', '', $value);
 			$allBranch[$key] = str_replace('*', '', $allBranch[$key]);
 			$allBranch[$key] = str_replace('origin/', '', $allBranch[$key]);
 		}
 	}
+	foreach($allBranch as $key => $value){
+		if(trim($value) == $cBranch){
+			unset($allBranch[$key]);
+		}elseif($value == ''){
+			unset($allBranch[$key]);
+		}
+	}
+	
 	$allBranch = array_unique($allBranch);
 	sort($allBranch);
-	
 	echo '<br>Current branch name is: <b>' . $cBranch . '</b>';
 	echo '<form name="checkout" action="" method="post">';
 	echo '<input type="hidden" name="action" value="commitedFileList">';
